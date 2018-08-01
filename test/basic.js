@@ -1,30 +1,44 @@
-var encryptor = require('../lib/file-encryptor'),
-    fs = require('fs'),
-    path = require('path');
+const Encryptor = require('../lib/file-encryptor'),
+  fs = require('fs'),
+  path = require('path'),
+  assert = require('assert');
 
-var key = 'My Super Secret Key';
+const key = 'My Super Secret Key';
 
-var encrypt = function(input) {
-  encryptor.encryptFile(
-    path.join(__dirname, input),
-    path.join(__dirname, input + '.data'),
-    key,
-    function(err) {
-      console.log(input + ' encryption complete.');
-      decrypt(input, input + '.data');
-    }
-  );
+const encryptor = new Encryptor({ key });
+
+const exampleFilename = path.join(__dirname, 'example.txt');
+const encryptedFilename = path.join(__dirname, 'encrypted.data');
+const decryptedFilename = path.join(__dirname, 'decrypted.data');
+
+const cleanUp = () => {
+  fs.unlinkSync(encryptedFilename);
+  fs.unlinkSync(decryptedFilename);
 };
 
-var decrypt = function(original, encrypted) {
-  encryptor.decryptFile(
-    path.join(__dirname, encrypted),
-    path.join(__dirname, 'decrypted.' + original),
-    key,
-    function(err) {
-      console.log(original + ' decryption complete.');
-    }
-  );
+const encryptFile = () => {
+  return encryptor.encryptFile(exampleFilename, encryptedFilename);
 };
 
-encrypt('example.txt');
+const decryptFile = () => {
+  return encryptor.decryptFile(encryptedFilename, decryptedFilename);
+};
+
+const checkFiles = () => {
+  const exampleFileContents = fs.readFileSync(exampleFilename, 'utf8');
+  const encryptedFileContents = fs.readFileSync(encryptedFilename, 'utf8');
+  const decryptedFileContents = fs.readFileSync(decryptedFilename, 'utf8');
+  
+  assert(exampleFileContents !== encryptedFileContents, 'Encryption failed');
+  assert(exampleFileContents === decryptedFileContents, 'Decryption failed');
+};
+
+encryptFile()
+  .then(decryptFile)
+  .then(checkFiles)
+  .then(cleanUp)
+  .catch((e) => {
+    cleanUp();
+    console.log(`Test failed: ${e.message}`);
+  });
+

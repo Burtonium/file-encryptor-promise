@@ -1,30 +1,26 @@
-# file-encryptor
+# file-encryptor-promise
 
-Encrypts files using Node's built-in Cipher class. Encryption is stream-based for low memory footprint.
+Promisified version of XervoIO's package [file-encryptor](https://github.com/XervoIO/file-encryptor). Encrypts files using Node's built-in Cipher class. Encryption is stream-based for low memory footprint.
 
 ## Getting Started
 
 Install the module:
 
-    npm install file-encryptor
+    npm install file-encryptor-promise
 
 Use it in your script:
 
-    var encryptor = require('file-encryptor');
+    const Encryptor = require('file-encryptor-promise');
 
-    var key = 'My Super Secret Key';
+    const key = 'My Super Secret Key';
+    
+    const encryptor = new Encryptor({ key });
 
     // Encrypt file.
-    encryptor.encryptFile('input_file.txt', 'encrypted.dat', key, function(err) {
-      // Encryption complete.
-    });
-
-    ...
+    await encryptor.encryptFile('input_file.txt', 'encrypted.dat');
 
     // Decrypt file.
-    encryptor.decryptFile('encrypted.dat', 'output_file.txt', key, function(err) {
-      // Decryption complete.
-    });
+    await encryptor.decryptFile('encrypted.dat', 'output_file.txt');
 
 The input file will be streamed through the Cipher and to the output file. If the output files does not
 exists, it will be created. If the output file already exists, it will be truncated.
@@ -43,15 +39,9 @@ Setting algorithm option:
     var key = 'My Super Secret Key';
     var options = { algorithm: 'aes256' };
 
-    encryptor.encryptFile('input_file.txt', 'encrypted.dat', key, options, function(err) {
-      // Decryption complete;
-    });
+    encryptor = new Encryptor({ key, options });
 
-    ...
-
-    encryptor.decryptFile('encrypted.dat', 'outputfile.txt', key, options, function(err) {
-      // Encryption complete;
-    });
+    await encryptor.decryptFile('encrypted.dat', 'outputfile.txt');
 
 ## License
 Copyright (c) 2013 Modulus
