@@ -1,17 +1,18 @@
 {
-  "name": "file-encryptor",
+  "name": "file-encryptor-promise",
   "version": "0.1.1",
-  "description": "Encrypts files using Node's built-in Cipher class.",
-  "homepage": "https://github.com/onmodulus/file-encryptor",
-  "author": "Modulus <support@modulus.io>",
+  "description": "Promise based file encryptor using Node's built-in Cipher class.",
+  "homepage": "https://github.com/Burtonium/file-encryptor-promise#readme",
+  "author": "Matt <matt@burtonize.me>",
   "contributors": {
-    "name": "Brandon Cannaday",
-    "email": "brandon@modulus.io"
+    "name": "Matt Burton",
+    "email": "matt@burtonize.me"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/onmodulus/file-encryptor"
+    "url": "https://github.com/Burtonium/file-encryptor-promise"
   },
   "main": "./lib/file-encryptor.js",
+  "engines" : { "node" : ">=6.0.0" }
   "dependencies": {}
 }
