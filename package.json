@@ -13,6 +13,6 @@
     "url": "https://github.com/Burtonium/file-encryptor-promise"
   },
   "main": "./lib/file-encryptor.js",
-  "engines" : { "node" : ">=6.0.0" }
+  "engines" : { "node" : ">=6.0.0" },
   "dependencies": {}
 }
